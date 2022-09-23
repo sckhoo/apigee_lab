@@ -25,4 +25,6 @@ sckhoos-MacBook-Pro:apigee_lab khoosweechuan$
 
 -----------------
 
-
+   98  git add .
+   99  git commit -m "add git howto"
+  100  git push -u origin main
