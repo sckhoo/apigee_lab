@@ -1,18 +1,26 @@
-from fastapi import FastAPI, Path
+from turtle import title
+from fastapi import FastAPI, Path, HTTPException
 import pandas as pd
 from typing import Optional
 from pydantic import BaseModel
 import gspread
 import os
+from typing import Optional
 
-app = FastAPI()
+app = FastAPI(title="sckhoo FastAPI learning")
 
-user_list = []
+userdb = []
+
+class UserClassIn(BaseModel):
+    name: str
+    age: int
+    gender: Optional[str] = None
+    icnum : str
 
 class UserClass(BaseModel):
     name: str
     age: int
-    gender: str
+    gender: Optional[str] = None
 
 @app.get("/")
 async def hello():
@@ -29,10 +37,6 @@ async def put_user(username: str):
     user_list.append(username)
     return user_list
 
-@app.post("/user")
-async def put_user(username: str):
-    user_list.append(username)
-    return user_list
 
 @app.post("/postdata")
 async def post_data(name_value: UserClass):
@@ -40,3 +44,10 @@ async def post_data(name_value: UserClass):
     return {
         "name": name_value.name
     }
+
+
+@app.post("/user", response_model=UserClass)
+async def put_user(username: UserClassIn, VIP: bool):
+    userdb.append(username.dict())
+    print(userdb)
+    return {**username.dict()}
