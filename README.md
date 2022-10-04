@@ -28,3 +28,15 @@ sckhoos-MacBook-Pro:apigee_lab khoosweechuan$
    98  git add .
    99  git commit -m "add git howto"
   100  git push -u origin main
+
+To deploy to app engine
+C:\Users\Swee-Chuan Khoo\Documents\apigee_lab>gcloud app deploy hello_world_fastapi\app.yaml hello_world_flask\app.yaml hello_world_nodejs\app.yaml
+
+To deplot to cloud run
+C:\Users\Swee-Chuan Khoo\Documents\apigee_lab\cloud_run\hello_world_nodejs>gcloud builds submit --tag gcr.io/{project}/sckhoo_nodejs_cloudrun_helloworld
+C:\Users\Swee-Chuan Khoo\Documents\apigee_lab\cloud_run\hello_world_nodejs>gcloud run deploy --image gcr.io/{project}/sckhoo_nodejs_cloudrun_helloworld --allow-unauthenticated --region=asia-southeast1
+C:\Users\Swee-Chuan Khoo\Documents\apigee_lab\cloud_run\hello_world_nodejs>gcloud run deploy sckhoohelloworld --image gcr.io/{project}/sckhoo_nodejs_cloudrun_helloworld --allow-unauthenticated --region=asia-southeast1
+
+
+
+
