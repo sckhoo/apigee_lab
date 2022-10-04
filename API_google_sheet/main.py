@@ -1,53 +1,52 @@
-from turtle import title
-from fastapi import FastAPI, Path, HTTPException
-import pandas as pd
-from typing import Optional
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import gspread
-import os
-from typing import Optional
+from typing import Optional, List
 
-app = FastAPI(title="sckhoo FastAPI learning")
+class Todo(BaseModel):
 
-userdb = []
-
-class UserClassIn(BaseModel):
     name: str
-    age: int
-    gender: Optional[str] = None
-    icnum : str
+    due_date: str
+    description: str
 
-class UserClass(BaseModel):
-    name: str
-    age: int
-    gender: Optional[str] = None
+app = FastAPI(title="Todo API")
 
-@app.get("/")
-async def hello():
-    return {
-        "message": "Hello World"
-    }
+# Create, Read, Update, Delete
 
-@app.get("/user/{username}")
-async def put_user(username: str):
-    return user_list
+store_todo = []
 
-@app.put("/user/{username}")
-async def put_user(username: str):
-    user_list.append(username)
-    return user_list
+@app.get('/')
+async def home():
+    return {"Hello": "Penang"}
 
+@app.post('/todo/')
+async def create_todo(todo: Todo):
+    store_todo.append(todo)
+    return todo
 
-@app.post("/postdata")
-async def post_data(name_value: UserClass):
-    print(name_value)
-    return {
-        "name": name_value.name
-    }
+@app.get('/todo/', response_model=List[Todo])
+async def get_all_todos():
+    return store_todo
 
+@app.get('/todo/{id}')
+async def get_todo(id: int):
+    try:
+        return store_todo[id]
+    except:
+        raise HTTPException(status_code=404, detail="Todo Not Found")
 
-@app.post("/user", response_model=UserClass)
-async def put_user(username: UserClassIn, VIP: bool):
-    userdb.append(username.dict())
-    print(userdb)
-    return {**username.dict()}
+@app.put('/todo/{id}')
+async def update_todo(id: int, todo: Todo):
+    try:
+        store_todo[id] = todo
+        return store_todo[id]
+    except:
+        raise HTTPException(status_code=404, detail="Todo Not Found")
+
+@app.delete('/todo/{id}')
+async def delete_todo(id: int):
+    try:
+        obj = store_todo[id]
+        store_todo.pop(id)
+        return obj
+    except:
+        raise HTTPException(status_code=404, detail="Todo Not Found")
