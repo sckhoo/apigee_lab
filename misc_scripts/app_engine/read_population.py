@@ -2,22 +2,14 @@ import os
 from csv import DictReader
 from pathlib import Path
 from fastapi import FastAPI, HTTPException
+from csv2list import get_data_csv
+
 
 filename = 'world_population.csv'
 data_folder = Path(os.getcwd())
 file_to_open = data_folder / filename
-
-def get_data_csv(file_to_open):
-    if not file_to_open.exists():
-        print("Oops, file doesn't exist!")
-    else:
-        with open(file_to_open, 'r') as f:
-            dict_reader = DictReader(f)
-            list_temp = list(dict_reader)
-    return list_temp
-
-
 list_of_dict = get_data_csv(file_to_open)
+
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
 app = FastAPI()
@@ -27,7 +19,7 @@ app = FastAPI()
 @app.get('/')
 async def home():
     #print(len(list_of_dict))
-    return {"Hello World": "From FastAPI"}
+    return {"Hello World": "From FastAPI Population API"}
 
 @app.get('/population_by_id/{id}')
 async def get_by_id(id: int):
