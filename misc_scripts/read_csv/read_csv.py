@@ -14,11 +14,6 @@ def get_data_csv(file_to_open):
         with open(file_to_open, 'r') as f:
             dict_reader = DictReader(f)
             list_temp = list(dict_reader)
-            res = None
-            for sub in list_temp:
-                if sub['Country'] == "Malaysia":
-                    res = sub
-                    break
     return list_temp
 
 
