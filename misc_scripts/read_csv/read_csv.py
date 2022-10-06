@@ -29,14 +29,14 @@ async def home():
     #print(len(list_of_dict))
     return {"Hello World": "From FastAPI"}
 
-@app.get('/country_by_id/{id}')
+@app.get('/population_by_id/{id}')
 async def get_by_id(id: int):
     try:
         return list_of_dict[id]
     except:
         raise HTTPException(status_code=404, detail="ID Not Found")
 
-@app.get('/country_by_name/{country}')
+@app.get('/population_by_country/{country}')
 async def get_by_name(country: str):
     res = None
     try:
